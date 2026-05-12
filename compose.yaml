@@ -6,7 +6,7 @@ services:
       dockerfile: docker/laravel/Dockerfile
     working_dir: /var/www/html
     ports:
-      - "8000:8000"
+      - "9000:8000"
     volumes:
       - ./laravel-app:/var/www/html
 

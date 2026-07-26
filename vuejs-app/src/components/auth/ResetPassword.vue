@@ -42,7 +42,7 @@
 <script setup>
 import { reactive } from "vue";
 import { apiSendResetPasswordEmail } from "@/functions/api/auth";
-import { LoadingModal, MessageModal, CloseModal } from "@/functions/swal";
+import { LoadingModal, MessageModal, CloseModal } from "../../functions/api/swal";
 
 const user = reactive({
   email: "",

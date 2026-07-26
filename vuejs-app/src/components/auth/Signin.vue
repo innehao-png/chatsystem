@@ -55,7 +55,7 @@
 import { useRouter } from "vue-router";
 import { reactive } from "vue";
 import { apiSignIn } from "@/functions/api/auth";
-import { LoadingModal, MessageModal, CloseModal } from "@/functions/swal";
+import { LoadingModal, MessageModal, CloseModal } from "../../functions/api/swal";
 import { useUserStore } from "@/stores/user";
 const router = useRouter();
 const userStore = useUserStore();

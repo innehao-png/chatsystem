@@ -16,12 +16,12 @@ services:
       mysql-service:
         condition: service_healthy
     command: ["bash", "/usr/local/bin/entrypoint.development.sh"]
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8000/up"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
+    # healthcheck:
+    #   test: [ "CMD", "curl", "-f", "http://localhost:8000/up"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+    #   start_period: 30s
   vuejs-service:
     container_name: vuejs-container
     build:
@@ -35,8 +35,8 @@ services:
     ports:
       - "5173:5173"
     depends_on:
-        laravel-service:
-            condition: service_healthy
+        - laravel-service
+            # condition: service_healthy
     command: ["sh", "/usr/local/bin/entrypoint.development.sh"]
   mysql-service:
     image: mysql:8.0

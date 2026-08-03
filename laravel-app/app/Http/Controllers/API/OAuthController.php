@@ -6,48 +6,38 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+// use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Socialite;
 
 class OAuthController extends Controller
 {
-    function OAuthRedirect(Request $request, $driver)
+    function oAuthRedirect(Request $request, $driver)
     {
         $callback_url = $request->query('callback_url', '');
-        $socialite = Socialite::driver($driver);
 
-        if ($driver !== 'twitter-oauth-2') {
-            $socialite->stateless();
-            $socialite->with(['state' => base64_encode($callback_url)]);
-        } else {
-            session(['oauth_callback_url' => $callback_url]);
-        }
+        $redirectUrl = Socialite::driver($driver)
+            ->stateless()
+            ->with(['state' => base64_encode($callback_url)])
+            ->redirect()
+            ->getTargetUrl();
 
-        $redirectUrl = $socialite->redirect()->getTargetUrl();
         return response(['redirect_url' => $redirectUrl], 200);
     }
 
-    function OAuthCallback(Request $request, $driver)
+    function oAuthCallback(Request $request, $driver)
     {
-        $callback_url = $driver === 'twitter-oauth-2'
-            ? session('oauth_callback_url', '')
-            : base64_decode($request->query('state', ''));
-
+        $callback_url = base64_decode($request->query('state', ''));
         try {
-            $socialite = Socialite::driver($driver);
-            if ($driver !== 'twitter-oauth-2') {
-                $socialite->stateless();
-            }
-            $OauthUser = $socialite->user();
+            $oauthUser = Socialite::driver($driver)->stateless()->user();
         } catch (\Exception $e) {
-            Log::error('OAuth callback failed', ['driver' => $driver, 'message' => $e->getMessage()]);
-            return redirect($callback_url . '?error=_oauth_failed');
+            return redirect($callback_url . '?error=oauth_failed');
         }
 
-        $user = User::updateOrCreate(
-            ['email' => $OauthUser->getEmail()],
+        $user = User::firstOrCreate(
+            ['email' => $oauthUser->getEmail()],
             [
-                'name' => $OauthUser->getName(),
+                'name' => $oauthUser->getName(),
+                'profile_image' => $oauthUser->getAvatar()
             ]
         );
 
@@ -62,7 +52,7 @@ class OAuthController extends Controller
         return redirect($callback_url . '?token=' . urlencode($token));
     }
 
-    function OAuthExchangeToken(Request $request)
+    function oAuthExchangeToken(Request $request)
     {
         $user = $request->user();
 

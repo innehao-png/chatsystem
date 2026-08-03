@@ -9,8 +9,13 @@
           <p class="login-box-msg">Sign in to start your session</p>
           <form @submit.prevent="signIn">
             <div class="input-group mb-3">
-              <input type="email" v-model="user.email" class="form-control" placeholder="Email"
-                :class="{ 'is-invalid': !!userError.email }" />
+              <input
+                type="email"
+                v-model="user.email"
+                class="form-control"
+                placeholder="Email"
+                :class="{ 'is-invalid': !!userError.email }"
+              />
               <div class="input-group-append">
                 <div class="input-group-text">
                   <span class="fas fa-envelope"></span>
@@ -21,8 +26,14 @@
               </div>
             </div>
             <div class="input-group mb-3">
-              <input type="password" v-model="user.password" class="form-control" placeholder="Password" autocomplete
-                :class="{ 'is-invalid': !!userError.password }" />
+              <input
+                type="password"
+                v-model="user.password"
+                class="form-control"
+                placeholder="Password"
+                autocomplete
+                :class="{ 'is-invalid': !!userError.password }"
+              />
               <div class="input-group-append">
                 <div class="input-group-text">
                   <span class="fas fa-lock"></span>
@@ -35,21 +46,55 @@
             <div class="row">
               <div class="col-8"></div>
               <div class="col-4">
-                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                <button type="submit" class="btn btn-primary btn-block">
+                  Sign In
+                </button>
               </div>
             </div>
           </form>
           <div class="social-auth-links text-center mt-3 mb-3">
             <p>- OR -</p>
-            <button @click="googleSignIn()" class="btn btn-block btn-danger">
-              <i class="fab fa-google mr-2"></i> Sign in with Google
-            </button>
+            <div class="d-flex justify-content-between px-5">
+              <button
+                @click="oauthSignIn('google')"
+                class="btn btn-outline-success"
+              >
+                <i class="fab fa-google"></i>
+              </button>
+
+              <button
+                @click="oauthSignIn('github')"
+                class="btn btn-outline-secondary"
+              >
+                <i class="fab fa-github"></i>
+              </button>
+
+              <button
+                @click="oauthSignIn('facebook')"
+                class="btn btn-outline-primary"
+              >
+                <i class="fab fa-facebook"></i>
+              </button>
+
+              <button
+                @click="oauthSignIn('twitter-oauth-2')"
+                class="btn btn-outline-dark"
+              >
+                <i class="fab fa-twitter"></i>
+              </button>
+            </div>
           </div>
           <p class="mb-1">
-            <router-link :to="{ name: 'auth.signup' }" class="text-center">Register a new membership</router-link>
+            <router-link :to="{ name: 'auth.signup' }" class="text-center"
+              >Register a new membership</router-link
+            >
           </p>
           <p class="mb-0">
-            <router-link :to="{ name: 'auth.reset-password' }" class="text-center">Forgot your password?</router-link>
+            <router-link
+              :to="{ name: 'auth.reset-password' }"
+              class="text-center"
+              >Forgot your password?</router-link
+            >
           </p>
         </div>
       </div>
@@ -61,9 +106,13 @@
 import { useRouter } from "vue-router";
 import { reactive } from "vue";
 import { apiSignIn } from "@/functions/api/auth";
-import { LoadingModal, MessageModal, CloseModal } from "../../functions/api/swal";
+import {
+  LoadingModal,
+  MessageModal,
+  CloseModal,
+} from "../../functions/api/swal";
 import { useUserStore } from "@/stores/user";
-import { apiGoogleOAuthRedirect } from "@/functions/api/google-oauth";
+import { apiOAuthRedirect } from "@/functions/api/oauth";
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -88,7 +137,7 @@ function resetAllState() {
 
 async function signIn() {
   try {
-    LoadingModal('Signing In...');
+    LoadingModal("Signing In...");
     const response = await apiSignIn(user);
     const { data } = response;
     userStore.setState(data.user);
@@ -99,14 +148,16 @@ async function signIn() {
   } catch (error) {
     const { response } = error;
     if (!response) {
-      return MessageModal({ icon: "error", title: "Error", text: error.message });
+      return MessageModal({
+        icon: "error",
+        title: "Error",
+        text: error.message,
+      });
     }
     const { status, data } = response;
     if (status === 422) {
       Object.keys(userError).forEach((key) => {
-        userError[key] = data.errors[key]
-          ? data.errors[key][0]
-          : "";
+        userError[key] = data.errors[key] ? data.errors[key][0] : "";
       });
       return CloseModal();
     }
@@ -114,15 +165,18 @@ async function signIn() {
   }
 }
 
-const googleSignIn = async () => {
+const oauthSignIn = async (driver) => {
   try {
     LoadingModal();
-    const response = await apiGoogleOAuthRedirect();
+    const response = await apiOAuthRedirect(driver);
     // console.log("redirect_url:", response.data.redirect_url);
     window.location.href = response.data.redirect_url;
-
   } catch (error) {
-    return MessageModal({ icon: "error", title: "Error", text: error.response?.data?.message || error.message });
+    return MessageModal({
+      icon: "error",
+      title: "Error",
+      text: error.response?.data?.message || error.message,
+    });
   }
 };
 </script>

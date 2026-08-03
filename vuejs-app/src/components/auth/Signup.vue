@@ -88,7 +88,7 @@
 import { reactive, ref } from "vue";
 import { apiSignUp, apiSendVerificationEmail } from "@/functions/api/auth";
 import { LoadingModal, MessageModal, CloseModal } from "../../functions/api/swal";
-import { apiGoogleOAuthRedirect } from "@/functions/api/google-oauth";
+import { apiOAuthRedirect } from "@/functions/api/oauth";
 
 const user = reactive({
   name: "",
@@ -168,7 +168,7 @@ function resetSignedUpEmail() {
 const googleSignUp = async () => {
   try {
     LoadingModal();
-    const response = await apiGoogleOAuthRedirect();
+    const response = await apiOAuthRedirect();
     window.location.href = response.data.redirect_url;
   } catch (error) {
     return MessageModal({ icon: "error", title: "Error", text: error.response?.data?.message || error.message });

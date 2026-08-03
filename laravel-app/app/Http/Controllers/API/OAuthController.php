@@ -6,41 +6,48 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Socialite;
-// before encode http://localhost:5173/google/oauth/callback
-// after decode aHR0cDovL2xvY2FsaG9zdDo1MTczL2xvZ2lu
-class GoogleOAuthController extends Controller
+
+class OAuthController extends Controller
 {
-    function googleOAuthRedirect(Request $request)
+    function OAuthRedirect(Request $request, $driver)
     {
         $callback_url = $request->query('callback_url', '');
+        $socialite = Socialite::driver($driver);
 
-        $redirectUrl = Socialite::driver('google')
-            //tell laravel to don't use session
-            ->stateless()
-            // sent state parameter to google oauth request
-            ->with(['state' => base64_encode($callback_url)])
-            // Build the Google login URL.
-            ->redirect()
-            //get url as string
-            ->getTargetUrl();
+        if ($driver !== 'twitter-oauth-2') {
+            $socialite->stateless();
+            $socialite->with(['state' => base64_encode($callback_url)]);
+        } else {
+            session(['oauth_callback_url' => $callback_url]);
+        }
 
+        $redirectUrl = $socialite->redirect()->getTargetUrl();
         return response(['redirect_url' => $redirectUrl], 200);
     }
 
-    function googleOAuthCallback(Request $request)
+    function OAuthCallback(Request $request, $driver)
     {
-        $callback_url = base64_decode($request->query('state', ''));
+        $callback_url = $driver === 'twitter-oauth-2'
+            ? session('oauth_callback_url', '')
+            : base64_decode($request->query('state', ''));
+
         try {
-            $googleUser = Socialite::driver('google')->stateless()->user();
+            $socialite = Socialite::driver($driver);
+            if ($driver !== 'twitter-oauth-2') {
+                $socialite->stateless();
+            }
+            $OauthUser = $socialite->user();
         } catch (\Exception $e) {
-            return redirect($callback_url . '?error=google_oauth_failed');
+            Log::error('OAuth callback failed', ['driver' => $driver, 'message' => $e->getMessage()]);
+            return redirect($callback_url . '?error=_oauth_failed');
         }
 
         $user = User::updateOrCreate(
-            ['email' => $googleUser->getEmail()],
+            ['email' => $OauthUser->getEmail()],
             [
-                'name' => $googleUser->getName(),
+                'name' => $OauthUser->getName(),
             ]
         );
 
@@ -55,7 +62,7 @@ class GoogleOAuthController extends Controller
         return redirect($callback_url . '?token=' . urlencode($token));
     }
 
-    function googleOAuthExchangeToken(Request $request)
+    function OAuthExchangeToken(Request $request)
     {
         $user = $request->user();
 
@@ -73,5 +80,4 @@ class GoogleOAuthController extends Controller
             'token' => $token
         ], 200);
     }
-
 }

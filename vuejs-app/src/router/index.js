@@ -5,7 +5,6 @@ import Signin from '@/components/auth/Signin.vue';
 import Signout from '@/components/auth/Signout.vue';
 import Signup from '@/components/auth/Signup.vue';
 import VerifyEmail from '@/components/auth/VerifyEmail.vue';
-import GoogleOAuth from '@/components/google-oauth/GoogleOAuth.vue';
 import Dashboard from '@/components/pages/Dashboard.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
@@ -15,6 +14,7 @@ import LeftSidebar from "@/components/includes/LeftSidebar.vue";
 import RightSidebar from "@/components/includes/RightSidebar.vue";
 import Footer from "@/components/includes/Footer.vue";
 import Profile from '@/components/includes/Profile.vue';
+import OAuth from '@/components/oauth/OAuth.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -57,9 +57,9 @@ const router = createRouter({
       meta: { guarded: false },
     },
     {
-      path: '/google/oauth/callback',
-      name: 'auth.google.oauth.callback',
-      component: GoogleOAuth,
+      path: '/oauth/callback',
+      name: 'auth.oauth.callback',
+      component: OAuth,
       meta: { guarded: false },
     },
     {

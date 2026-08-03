@@ -31,4 +31,8 @@ Route::post('/oauth/exchange/token', [OAuthController::class, 'OAuthExchangeToke
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/signout', [AuthController::class, 'signout']);
     Route::get('/verify', [AuthController::class, 'verify']);
+    Route::put('/create/password', [AuthController::class, 'createPassword']);
+    Route::put('/change/password', [AuthController::class, 'changePassword']);
+    Route::put('/update/profile-image', [AuthController::class, 'updateProfileImage']);
+    Route::delete('/delete/profile-image', [AuthController::class, 'deleteProfileImage']);
 });

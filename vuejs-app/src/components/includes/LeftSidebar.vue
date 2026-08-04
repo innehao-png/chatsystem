@@ -116,6 +116,21 @@
           </li>
         </ul>
       </nav>
+      <!-- SidebarSearch Form -->
+      <div class="form-inline">
+        <div class="input-group">
+          <input class="form-control form-control-sidebar" type="text" placeholder="Search" aria-label="Search">
+          <div class="input-group-append">
+            <button class="btn btn-sidebar">
+              <i class="fas fa-search fa-fw"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <nav class="mt-2">
+        <ChatList :chats="chats"></ChatList>
+        <UserList :users="users"></UserList>
+      </nav>
     </div>
   </aside>
 </template>
@@ -123,6 +138,25 @@
 import emptyImage from "@/assets/images/emptyImage.png";
 import npic from "@/assets/images/npic.png";
 import { useUserStore } from "@/stores/user";
+import { ref, onMounted } from 'vue';
+import { apiGetChats, apiGetChatUsers } from '@/functions/api/chat';
+import ChatList from '@/components/includes/controls/ChatList.vue';
+import UserList from '@/components/includes/controls/UserList.vue';
 
 const userStore = useUserStore();
+const chats = ref([]);
+const users = ref([]);
+
+onMounted(() => {
+  generateChats();
+  generateUsers();
+});
+async function generateChats() {
+  const response = await apiGetChats();
+  chats.value = response.data.chats;
+}
+async function generateUsers() {
+  const response = await apiGetChatUsers();
+  users.value = response.data.users;
+}
 </script>

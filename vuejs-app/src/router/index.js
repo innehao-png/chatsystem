@@ -15,6 +15,7 @@ import LeftSidebar from "@/components/includes/LeftSidebar.vue";
 import RightSidebar from "@/components/includes/RightSidebar.vue";
 import Footer from "@/components/includes/Footer.vue";
 import OAuth from '@/components/oauth/OAuth.vue';
+import Backup from '@/components/pages/Backup.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -91,6 +92,18 @@ const router = createRouter({
       name: 'users',
       components: {
         default: User,
+        navbar: Navbar,
+        left_sidebar: LeftSidebar,
+        right_sidebar: RightSidebar,
+        footer: Footer,
+      },
+      meta: { guarded: true },
+    },
+    {
+      path: '/backups',
+      name: 'backups',
+      components: {
+        default: Backup,
         navbar: Navbar,
         left_sidebar: LeftSidebar,
         right_sidebar: RightSidebar,

@@ -29,7 +29,7 @@ Route::prefix('{driver}')->whereIn('driver', ['google', 'github', 'facebook'])->
 Route::post('/oauth/exchange/token', [OAuthController::class, 'OAuthExchangeToken'])
     ->middleware('auth:sanctum');
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'enabled'])->group(function () {
     Route::post('/signout', [AuthController::class, 'signout']);
     Route::get('/verify', [AuthController::class, 'verify']);
     Route::put('/create/password', [AuthController::class, 'createPassword']);

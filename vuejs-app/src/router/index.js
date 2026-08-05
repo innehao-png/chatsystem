@@ -16,6 +16,9 @@ import RightSidebar from "@/components/includes/RightSidebar.vue";
 import Footer from "@/components/includes/Footer.vue";
 import OAuth from '@/components/oauth/OAuth.vue';
 import Backup from '@/components/pages/Backup.vue';
+import ChatDetail from '@/components/pages/ChatDetail.vue';
+import ChatBox from '@/components/pages/ChatBox.vue';
+import ChatCreate from '@/components/pages/ChatCreate.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

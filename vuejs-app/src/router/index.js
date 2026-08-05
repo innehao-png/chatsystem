@@ -112,6 +112,44 @@ const router = createRouter({
       meta: { guarded: true },
     },
     {
+      path: "/chat/create",
+      name: "chat.create",
+      components: {
+        default: ChatCreate,
+        navbar: Navbar,
+        left_sidebar: LeftSidebar,
+        right_sidebar: RightSidebar,
+        footer: Footer,
+      },
+      meta: { guarded: true },
+    },
+    {
+      path: "/chat/:chatId/details",
+      name: "chat.details",
+      components: {
+        default: ChatDetail,
+        navbar: Navbar,
+        left_sidebar: LeftSidebar,
+        right_sidebar: RightSidebar,
+        footer: Footer,
+      },
+      props: { default: true },
+      meta: { guarded: true },
+    },
+    {
+      path: "/chat/:chatId",
+      name: "chat.box",
+      components: {
+        default: ChatBox,
+        navbar: Navbar,
+        left_sidebar: LeftSidebar,
+        right_sidebar: RightSidebar,
+        footer: Footer,
+      },
+      props: { default: true },
+      meta: { guarded: true },
+    },
+    {
       path: '/:pathMatch(.*)*',
       redirect: '/dashboard',
     }

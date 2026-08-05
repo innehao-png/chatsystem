@@ -53,7 +53,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { LoadingModal, MessageModal, CloseModal } from "../../functions/api/swal";
+import { LoadingModal, MessageModal, CloseModal } from "../../functions/swal";
 const route = useRoute();
 const router = useRouter();
 

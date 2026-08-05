@@ -70,7 +70,7 @@
 import $ from "jquery";
 import Swal from "sweetalert2";
 import { apiGetUsers, apiCreateUser, apiUpdateUser, apiReadUser, apiDeleteUser, apiToggleUserStatus } from "@/functions/api/user";
-import { CloseModal, LoadingModal, MessageModal } from "../../functions/api/swal";
+import { CloseModal, LoadingModal, MessageModal } from "../../functions/swal";
 import { onMounted, ref, h, reactive, watch } from "vue";
 import CustomTablePaginated from "@/components/includes/controls/CustomTablePaginated.vue";
 

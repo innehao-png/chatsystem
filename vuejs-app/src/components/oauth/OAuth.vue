@@ -2,7 +2,7 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { LoadingModal, MessageModal, CloseModal } from "../../functions/api/swal";
+import { LoadingModal, MessageModal, CloseModal } from "../../functions/swal";
 import { apiOAuthExchangeToken } from "@/functions/api/oauth";
 import { useUserStore } from "@/stores/user";
 import { useRouter } from 'vue-router';

@@ -115,7 +115,7 @@
 
 <script setup>
 import emptyImage from "@/assets/images/emptyImage.png";
-import { CloseModal, LoadingModal, MessageModal } from "../../functions/api/swal";
+import { CloseModal, LoadingModal, MessageModal } from "../../functions/swal";
 import { useRouter } from "vue-router";
 import { computed, reactive, ref, watch } from "vue";
 import {

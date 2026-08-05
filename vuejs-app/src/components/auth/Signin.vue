@@ -110,7 +110,7 @@ import {
   LoadingModal,
   MessageModal,
   CloseModal,
-} from "../../functions/api/swal";
+} from "../../functions/swal";
 import { useUserStore } from "@/stores/user";
 import { apiOAuthRedirect } from "@/functions/api/oauth";
 

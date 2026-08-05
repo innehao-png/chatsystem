@@ -28,7 +28,7 @@
 <script setup>
 import Swal from "sweetalert2";
 import { apiGetBackups, apiCreateBackup, apiDownloadBackup, apiDeleteBackup } from "@/functions/api/backup";
-import { CloseModal, LoadingModal, MessageModal } from "../../functions/api/swal";
+import { CloseModal, LoadingModal, MessageModal } from "../../functions/swal";
 import { onMounted, ref, h } from "vue";
 import CustomTable from "@/components/includes/controls/CustomTable.vue";
 

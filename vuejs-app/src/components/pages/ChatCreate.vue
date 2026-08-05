@@ -60,7 +60,7 @@
 <script setup>
 import { reactive, ref } from "vue";
 import emptyImage from "@/assets/images/emptyImage.png";
-import { MessageModal, LoadingModal, CloseModal } from "../../functions/api/swal";
+import { MessageModal, LoadingModal, CloseModal } from "../../functions/swal";
 import { apiCreateGroupChat } from "@/functions/api/chat";
 import { useRouter } from "vue-router";
 import { useRecentChatsStore } from "@/stores/recentChats";

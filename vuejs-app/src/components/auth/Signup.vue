@@ -87,7 +87,7 @@
 <script setup>
 import { reactive, ref } from "vue";
 import { apiSignUp, apiSendVerificationEmail } from "@/functions/api/auth";
-import { LoadingModal, MessageModal, CloseModal } from "../../functions/api/swal";
+import { LoadingModal, MessageModal, CloseModal } from "../../functions/swal";
 import { apiOAuthRedirect } from "@/functions/api/oauth";
 
 const user = reactive({

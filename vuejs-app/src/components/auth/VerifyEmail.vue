@@ -28,7 +28,7 @@
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { LoadingModal, CloseModal } from "../../functions/api/swal";
+import { LoadingModal, CloseModal } from "../../functions/swal";
 const route = useRoute();
 
 const status = ref(null);

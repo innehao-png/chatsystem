@@ -15,7 +15,7 @@
 
 <script setup>
 import emptyImage from "@/assets/images/emptyImage.png";
-import { LoadingModal, MessageModal, CloseModal } from "../../../functions/api/swal";
+import { LoadingModal, MessageModal, CloseModal } from "../../../functions/swal";
 import { apiCreatePersonalChat } from "@/functions/api/chat";
 import { useRouter } from "vue-router";
 import { useRecentChatsStore } from "@/stores/recentChats";

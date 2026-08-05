@@ -71,7 +71,7 @@
 </template>
 <script setup>
 import emptyImage from "@/assets/images/emptyImage.png";
-import npic from "@/assets/images/npic.png"
+import npic from "@/assets/images/npic.png";
 import { useUserStore } from "@/stores/user";
 import { useRecentChatsStore } from "@/stores/recentChats";
 import { ref, onMounted, watch, computed } from "vue";
@@ -105,6 +105,7 @@ const keyword = ref("");
 const isLoadingMore = ref(false);
 
 onMounted(() => {
+  recentChatsStore.subscribeToChatEvents();
   generateChats();
 
   // jQuery infinite scroll on sidebar
